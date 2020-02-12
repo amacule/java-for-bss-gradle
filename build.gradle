@@ -8,7 +8,7 @@ plugins {
 group 'ru.t-systems.amatcule.qa'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -16,18 +16,11 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    // https://mvnrepository.com/artifact/org.testng/testng
-    testCompile group: 'org.testng', name: 'testng', version: '7.1.0'
-    // https://mvnrepository.com/artifact/org.hamcrest/hamcrest
+    testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
     testCompile group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
-    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
-    // https://mvnrepository.com/artifact/io.qameta.allure/allure-testng
     compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.1'
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
 }

@@ -1,11 +1,36 @@
 package ru.tsystems.amatcule.qa.selenium;
 
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.Assert.assertEquals;
 
 
-public class BaseSeleniumTest {
+public class BaseSeleniumTest extends AbstractBaseSeleniumTest {
+
+    public String url="https://www.swtestacademy.com/selenium-webdriver-tutorial-java-testng/";
+    //public final String START_PAGE_URL="https://www.swtestacademy.com/selenium-webdriver-tutorial-java-testng/";
+    public static final String START_PAGE_URL = "https://intra.t-systems.ru/dash";
+    //public static final
+    public static final String USERNAME = System.getenv("TEST_USERNAME");
+    public static final String PASSWORD = System.getenv("TEST_PASSWORD");
 
     @Test
     public void testEquals(){
@@ -14,5 +39,34 @@ public class BaseSeleniumTest {
         int x = 2;
         actVal = x + x * x;
         assertEquals(expVal,actVal,"Не равно");
+    }
+
+    @Test
+    public void testNavigate(){
+        webDriver.navigate().to(url);
+
+    }
+
+    @Test
+    public void intraTest(){
+        webDriver.get(START_PAGE_URL);
+        var title = webDriver.findElement(By.cssSelector("h3")).getText();
+        assertThat("Login page is not open", title, is("Добро пожаловать в Intra"));
+        var userNameInput = webDriver.findElement(Locators.USERNAME_INPUT);
+        userNameInput.sendKeys(USERNAME);
+        var passwordInput = webDriver.findElement(Locators.PASSWORD_INPUT);
+        passwordInput.sendKeys(PASSWORD);
+        var loginButton = webDriver.findElement(Locators.LOGON_BUTTON_LOCATOR);
+        loginButton.click();
+        String currentUrl = webDriver.getCurrentUrl();
+        assertThat("Redirect or login is not working properly", currentUrl, is(START_PAGE_URL));
+
+        var wait = new WebDriverWait(webDriver, SECONDS.toSeconds(60),SECONDS.toMillis(1));
+        WebElement megabyteTextBlock = wait.until(ExpectedConditions.presenceOfElementLocated(Locators.MEGABYTES_TEXT_LOCATOR));
+        var megabyte = Integer.parseInt(megabyteTextBlock.getText());
+        assertThat(megabyte, Matchers.is(greaterThan(100)));
+        //assertThat("Redirect or login not working", driver.getCurrentUrl(), is(START_PAGE_URL));
+        //WebDriverWait wait = new WebDriverWait(webDriver, TimeUnit.SECONDS.toSeconds(60),TimeUnit.SECONDS.toMillis(1));
+        //WebElement megabyteTextBlock = wait.until(presenceOfElementLocated(Locators.USERNAME_INPUT));
     }
 }
