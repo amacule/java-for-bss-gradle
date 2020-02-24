@@ -69,4 +69,34 @@ public class BaseSeleniumTest extends AbstractBaseSeleniumTest {
         //WebDriverWait wait = new WebDriverWait(webDriver, TimeUnit.SECONDS.toSeconds(60),TimeUnit.SECONDS.toMillis(1));
         //WebElement megabyteTextBlock = wait.until(presenceOfElementLocated(Locators.USERNAME_INPUT));
     }
+
+    @Test
+    public void task21Test(){
+        getDriver().get(START_PAGE_URL);
+        var title = getDriver().findElement(By.cssSelector("h3")).getText();
+        assertThat("Login page is not open", title, is("Добро пожаловать в Intra"));
+        var userNameInput = getDriver().findElement(Locators.USERNAME_INPUT);
+        userNameInput.sendKeys(USERNAME);
+        var passwordInput = getDriver().findElement(Locators.PASSWORD_INPUT);
+        passwordInput.sendKeys(PASSWORD);
+        var loginButton = getDriver().findElement(Locators.LOGON_BUTTON_LOCATOR);
+        loginButton.click();
+        WebDriverWait wait = new WebDriverWait(getDriver(), TimeUnit.SECONDS.toSeconds(60),TimeUnit.SECONDS.toMillis(1));
+        wait.until(ExpectedConditions.presenceOfElementLocated(Locators.LOGGED_USER_PHOTO_LOCATOR));
+        var loggedUserPhoto = getDriver().findElement(Locators.LOGGED_USER_PHOTO_LOCATOR);
+        loggedUserPhoto.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(Locators.USER_SETTINGS_LINK_LOCATOR));
+        var userSettingsLink = getDriver().findElement(Locators.USER_SETTINGS_LINK_LOCATOR);
+        userSettingsLink.click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(Locators.ABOUT_TEXTAREA_LOCATOR));
+        var aboutTextarea = getDriver().findElement(Locators.ABOUT_TEXTAREA_LOCATOR);
+        aboutTextarea.clear();
+        aboutTextarea.sendKeys("Я изучаю Java и Selenium");
+        var saveButton = getDriver().findElement(Locators.SAVE_BUTTON_LOCATOR);
+        saveButton.click();
+        getDriver().navigate().refresh();
+        wait.until(ExpectedConditions.presenceOfElementLocated(Locators.ABOUT_TEXTAREA_LOCATOR));
+        aboutTextarea = getDriver().findElement(Locators.ABOUT_TEXTAREA_LOCATOR);
+        assertThat("Info hasn't saved",aboutTextarea.getText(),is("Я изучаю Java и Selenium"));
+    }
 }

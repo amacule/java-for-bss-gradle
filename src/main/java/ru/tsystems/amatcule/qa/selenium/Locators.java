@@ -19,5 +19,12 @@ public class Locators {
     public static final By MEGABYTE_COLLEAGUE_SELECT_LOCATOR = By.xpath("//div[@id='postElem']//div[@class='pryanikyPostType']//li[@class='select2-search-field']//input");
     public static final By MEGABYTE_TEXT_LOCATOR = By.xpath("//div[@id='postElem']//textarea");
     public static final By MEGABYTE_SEND_BUTTON_LOCATOR = By.xpath("//div[@id='postElem']//input[@class='postNewsButton btn']");
+    public static final By USER_SETTINGS_LINK_LOCATOR = By.xpath("//ul[@class='dropdown-menu']//a[contains(@href,'/User/Settings')]");
+
+    //UserSettings
+    public static final By ABOUT_TEXTAREA_LOCATOR = By.xpath("//div[@class='redactor_box']/div/p");
+    //public static final By ABOUT_TEXTAREA_LOCATOR = By.xpath("//div[@class='redactor_box']/textarea");
+    public static final By SAVE_BUTTON_LOCATOR = By.xpath("//button[text()='Сохранить']");
+
 
 }
