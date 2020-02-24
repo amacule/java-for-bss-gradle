@@ -3,3 +3,6 @@
 **/build/*
 **/.allure/*
 *.iml
+
+devrun.sh
+devrun.bat

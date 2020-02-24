@@ -12,7 +12,8 @@ import java.net.URL;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public abstract class AbstractBaseSeleniumTest {
-    protected WebDriver webDriver;
+    public static ThreadLocal <WebDriver> webDriver = ThreadLocal.withInitial(()->null);
+    //protected WebDriver webDriver;
 
     private static final URL HUB_URL;
 
@@ -24,17 +25,23 @@ public abstract class AbstractBaseSeleniumTest {
         }
     }
 
+    protected WebDriver getDriver(){
+        return webDriver.get();
+    }
+
     @BeforeMethod
     public void initWebDriver() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("start-maximized");
-        webDriver = new RemoteWebDriver(HUB_URL, chromeOptions);
+        webDriver.set(new RemoteWebDriver(HUB_URL, chromeOptions));
+        getDriver().manage().timeouts().implicitlyWait(20,SECONDS);
+        getDriver().manage().timeouts().pageLoadTimeout(20,SECONDS);
     }
 
     @AfterMethod
     public void closeWebDriver() {
-        if (webDriver != null) {
-            webDriver.close();
+        if (getDriver() != null) {
+            getDriver().close();
         }
     }
 

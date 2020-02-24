@@ -43,25 +43,25 @@ public class BaseSeleniumTest extends AbstractBaseSeleniumTest {
 
     @Test
     public void testNavigate(){
-        webDriver.navigate().to(url);
+        getDriver().navigate().to(url);
 
     }
 
     @Test
     public void intraTest(){
-        webDriver.get(START_PAGE_URL);
-        var title = webDriver.findElement(By.cssSelector("h3")).getText();
+        getDriver().get(START_PAGE_URL);
+        var title = getDriver().findElement(By.cssSelector("h3")).getText();
         assertThat("Login page is not open", title, is("Добро пожаловать в Intra"));
-        var userNameInput = webDriver.findElement(Locators.USERNAME_INPUT);
+        var userNameInput = getDriver().findElement(Locators.USERNAME_INPUT);
         userNameInput.sendKeys(USERNAME);
-        var passwordInput = webDriver.findElement(Locators.PASSWORD_INPUT);
+        var passwordInput = getDriver().findElement(Locators.PASSWORD_INPUT);
         passwordInput.sendKeys(PASSWORD);
-        var loginButton = webDriver.findElement(Locators.LOGON_BUTTON_LOCATOR);
+        var loginButton = getDriver().findElement(Locators.LOGON_BUTTON_LOCATOR);
         loginButton.click();
-        String currentUrl = webDriver.getCurrentUrl();
+        String currentUrl = getDriver().getCurrentUrl();
         assertThat("Redirect or login is not working properly", currentUrl, is(START_PAGE_URL));
 
-        var wait = new WebDriverWait(webDriver, SECONDS.toSeconds(60),SECONDS.toMillis(1));
+        var wait = new WebDriverWait(getDriver(), SECONDS.toSeconds(60),SECONDS.toMillis(1));
         WebElement megabyteTextBlock = wait.until(ExpectedConditions.presenceOfElementLocated(Locators.MEGABYTES_TEXT_LOCATOR));
         var megabyte = Integer.parseInt(megabyteTextBlock.getText());
         assertThat(megabyte, Matchers.is(greaterThan(100)));
